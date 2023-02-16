@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
 - every recursive function has two parts: the base case, and the recursive case.
 
-[image]
+<p align="center"> <img src="picture1.png" /> </p>
 
 - Using the stack is convenient because you don’t have to keep track of a pile of boxes yourself—the stack does it for you. but there’s a cost: saving all that info can take up a lot of memory.
 
@@ -118,6 +118,80 @@ if __name__ == '__main__':
   - Look something up
 - Preventing duplicate entries.
 
+<img src="picture2.png" />
+
+- Using hash tables as a cache.
+
+  you’d just remember and answer. This is how caching works: websites remember the data instead of recalculating it.
+
+<img src="picture3.png" />
+
+When you visit a page on Facebook, it first checks whether the page is stored in the hash.
+
+<img src="picture4.png" />
+
+<img src="picture5.png" />
+
+**Recap**
+
+To recap, hashes are good for
+
+- Modeling relationships from one thing to another thing.
+- Filtering out duplicates.
+- Caching/memorizing data instead of making your server do work.
+
+**Collisions**
+
+Definition: an event of two or more records being assigned the same identifier or location in memory.
+
+Simplest way to deal with collisions is this: if multiple keys map to the same slot, start a linked list at that slot.
+<img src="picture6.png" />
+<img src="picture7.png" />
+There is a problem here, The entire hash table is totally empty except for one slot. And that slot has a giant linked list! Every single element in this hash table is in the linked list. That’s as bad as putting everything in a linked list to begin with. It’s going to slow down your hash table.
+
+> _A good hash function will give you very few collisions._
+
+**Performance**
+
+In the average case, hash tables take O(1) for everything. O(1) is called constant time. You haven’t seen constant time before. It doesn’t mean instant. It means the time taken will stay the same, regardless of how big the hash table is.
+
+<img src="picture8.png" />
+
+It’s important that you don’t hit worst-case performance with hash tables. And to do that, you need to avoid collisions.
+
+To avoid collisions, you need
+
+- A low load factor.
+- A good hash function.
+
+**Load factor**
+
+Load factor measures how many empty slots remain in your hash table
+
+<p align="center">
+  <img src="picture9.png" width="45%">
+&nbsp; &nbsp;&nbsp;
+  <img src="picture10.png" width="45%">
+</p>
+
+Having a load factor greater than 1 means you have more items than slots in your array.
+
+Once the load factor starts to grow, you need to add more slots to your hash table. This is called _resizing_.
+
+> A good rule of thumb is, resize when your load factor is greater than 0.7.
+
+**A good hash function:**
+
+- A good hash function distributes values in the array evenly.
+<p align="center">
+<img src="picture11.png" />
+</p>
+
+- A bad hash function groups values together and produces a lot of collisions.
+<p align="center">
+<img src="picture12.png" />
+</p>
+
 **Recap**
 
 You’ll almost never have to implement a hash table yourself. The programming language you use should provide an implementation for you. You can use Python’s hash tables and assume that you’ll get the average case performance: constant time.
@@ -130,3 +204,96 @@ Hash tables are a powerful data structure because they’re so fast and they let
 - Once your load factor is greater than .07, it’s time to resize your hash table.
 - Hash tables are used for caching data (for example, with a web server).
 - Hash tables are great for catching duplicates.
+
+## Chapter 05: Breadth-First Search (BFS)
+
+Breadth-first search is a different kind of search algorithm: one that runs on graphs.
+
+### It can help answer two types of questions:
+
+- Question type 1: Is there a path from node A to node B?
+- Question type 2: What is the shortest path from node A to node B?
+
+**Implementing the graph:**
+
+A graph consists of several nodes. And each node is connected to neighboring nodes.
+
+Here’s how you’d write it in Python:
+
+```python
+# def
+graph = {}
+graph["you"] = ["alice", "bob", "claire"]
+```
+
+A graph is just a bunch of nodes and edges.
+
+```python
+graph = {}
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+graph["anuj"] = []
+graph["peggy"] = []
+graph["thom"] = []
+graph["jonny"] = []
+```
+
+**Implementing the algorithm:**
+
+1. Keep a queue containing the people to check.
+2. Pop a person off the queue.
+3. Check if this Person is for ex: “a mango seller”.
+4. a. if yes → you’re done.
+
+   b. if no → add all their neighbors to the queue.
+
+5. Loop.
+6. If the queue is empty, there are no “mango sellers” in your network.
+
+And so on. The algorithm will keep going until either
+
+- A mango seller is found, or
+- The queue becomes empty, in which case there is no mango seller.
+
+Here’s the final code for breadth-first search, taking that into account:
+
+```python
+def search(name):
+    search_queue = deque()
+    search_queue += graph[name]
+    searched = []
+    while search_queue:
+        person = search_queue.popleft()
+        if not person in searched:
+            if person_is_seller(person):
+                print person + “ is a mango seller!”
+                return True
+            else:
+                search_queue += graph[person]
+                searched.append(person)
+    return False
+
+search(“you”)
+```
+
+**Topological sort:** it’s a way to make an ordered list out of a graph.
+
+**A tree** is a special type of graph, where no edges ever point back.
+
+**Recap**
+
+- Breadth-first search tells you if there’s a path from A to B.
+- If there’s a path, breadth-first search will find the shortest path.
+- If you have a problem like “find the shortest X,” try modeling your problem as a graph, and use breadth-first search to solve.
+- A directed graph has arrows, and the relationship follows the direction of the arrow (Rama -> Adit means “Rama owes Rdit money”).
+- Undirected graphs don’t have arrows, and the relationship goes both ways (ross - Rachel means “Ross dated Rachel and Rachel dated Ross”).
+<p align="center">
+<img src="picture13.png"/>
+</p>
+
+- Queues are FIFO (First In, First Out).
+- Stacks are LIFO (Last In, First Out).
+- You need to check people in the order they were added to the search list, so the search list needs to be a queue. Otherwise, you won’t get the shortest path.
+- Once you check someone, make sure you don’t check them again. Otherwise, you might end up in an infinite loop.
