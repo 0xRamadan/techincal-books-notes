@@ -62,6 +62,84 @@ Before we delve deeper into the advantages of OO development, let’s consider a
 
 In its basic definition, an object is an entity that contains both data and behavior
 
+# Chapter 02 - How to Think in Terms of Objects
+
+Three important things you can do to develop a good sense of the OO thought process are
+covered in this chapter:
+
+1. Knowing the difference between the interface and implementation
+2. Thinking more abstractly
+3. Giving the user the minimal interface possible
+
+### **Knowing the difference between the interface and implementation**
+
+> As a general rule, the interface to a class should contain only what the user needs to know
+
+> A change to the implementation should not require a change to the user’s code
+
+> Remember that the interface includes the syntax to call a method and return a value. If this interface does not change, the user does not care whether the implementation is changed. As long as the programmer can use the same syntax and retrieve the same value, that’s all that matters.
+
+> You add interfaces only when it is requested. Never assume that the user needs something.
+
+> **_Object persistence_** refers to the concept of saving the state of an object so that it can be restored and used at a later time. An object that does not persist basically dies when it goes out of scope.
+
+By separating the user interface from the implementation, we can save a lot of headaches down
+the road. In the figure below the database implementations are transparent to the end users, who see only the interface.
+
+<img src="figure01.png">
+
+> One of the main advantages of OO programming is that classes can be reused. In general, reusable classes tend to have interfaces that are more abstract than concrete. Concrete interfaces tend to be very specific, whereas abstract interfaces are more general.
+
+### **Providing The Absolute Minimal user Interface Possible**
+
+When designing a class, the general rule is to always provide the user with as little knowledge of
+the inner workings of the class as possible.
+
+To accomplish this, follow these simple rules:
+
+- Give the users only what they absolutely need.
+- It is better to have to add interfaces because users really need it than to give the users
+  more interfaces than they need.
+- Public interfaces define what the users can access.
+- It is vital to design classes from a user’s perspective and not from an information
+  systems viewpoint.
+- Make sure when you are designing a class that you go over the requirements and the
+  design with the people who will actually use it.
+
+### Determining the Users
+
+> In reality, to build a realistic and usable interface, both the customer and the cabbie must be considered users.
+
+### Object Behavior
+
+> Begin identifying the purpose of each object and what it must do to perform properly.
+
+### Environmental Constraints
+
+> In fact, environmental constraints are almost always a factor. Computer hardware might limit software functionality
+
+### Identifying the Public Interfaces
+
+> Initially, you think about how the object is used and not how it is built.
+
+> For each interface, you must determine whether the interface contributes to the operation of the object. If it does not, perhaps it is not necessary.
+
+### Identifying the Implementation
+
+> Technically, anything that is not a public interface can be considered the implementation.
+
+> Any private method is considered part of the implementation given that the user will never see it and thus will not have access to it.
+
+> The implementation is totally hidden from the user.
+
+> Theoretically, anything that is considered the implementation might change without affecting how the user interfaces with the class.
+
+> Interface represents how the user sees the object the implementation is really the nuts and bolts of the object.
+
+## Conclusion
+
+> Doing things in an OO way is more of an art than a science.
+
 # Chapter 05 - Class Design Guidelines
 
 This chapter presents several suggestions for designing classes. No list such as this can be considered complete.
